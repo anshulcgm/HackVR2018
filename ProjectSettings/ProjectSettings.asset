@@ -668,7 +668,10 @@ PlayerSettings:
   luminVersion:
     m_VersionCode: 1
     m_VersionName: 
-  luminPrivilege: []
+  luminPrivilege:
+  - WorldReconstruction
+  - GesturesSubscribe
+  - GesturesConfig
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: 01b8c888-4a17-4086-b9fd-1f0334f3bc50
