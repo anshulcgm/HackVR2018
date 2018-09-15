@@ -188,7 +188,12 @@ namespace UnityEngine.XR.MagicLeap
                 enabled = false;
                 return;
             }
-        }
+
+			Debug.Log(MLHands.Left.KeyPose.ToString());
+			Debug.Log((MLHands.Left.KeyPoseConfidence * 100.0f).ToString("n0"));
+			Debug.Log(MLHands.Right.KeyPose.ToString());
+			Debug.Log((MLHands.Right.KeyPoseConfidence * 100.0f).ToString("n0"));
+		}
         #endregion
     }
 }
