@@ -129,6 +129,7 @@ namespace UnityEngine.XR.MagicLeap
 				UpdateKeyPoseStates(true);
 			}
 
+<<<<<<< HEAD
 			var num = smoothingSteps;
 			while(num > 1)
 			{
@@ -153,6 +154,21 @@ namespace UnityEngine.XR.MagicLeap
 			av /= arr.Length;
 			return av;
 		}
+=======
+<<<<<<< HEAD
+			//if(MLHands.Left.KeyPose != )
+
+			//Debug.Log(MLHands.Left.KeyPose.ToString());
+
+			//if (MLHands.Left.KeyPose != MLHandKeyPose.NoHand)
+			//	Debug.Log((MLHands.Left.KeyPoseConfidence * 100.0f).ToString("n0"));
+
+			//Debug.Log(MLHands.Right.KeyPose.ToString());
+=======
+			DragonPoseLogic();
+		}
+>>>>>>> eb49a96ea45d7e2bca706663732c19366427563a
+>>>>>>> dd6da6406bfc7ef0e8aa4868eccfabeb1cd44bc6
 
 		private void DragonPoseLogic()
 		{
