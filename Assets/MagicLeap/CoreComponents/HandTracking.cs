@@ -59,10 +59,19 @@ namespace UnityEngine.XR.MagicLeap
 
         [SerializeField]
         private MLPoseFilterLevel _PoseFilterLevel = MLPoseFilterLevel.ExtraRobust;
-        #endregion
 
-        #region Public Properties
-        public KeyPoseTypes TrackedKeyPoses { get; private set; }
+		private MLHandKeyPose lastPoseLeft;
+		private MLHandKeyPose lastPoseRight;
+		[SerializeField]
+		private float travelDistance;
+		[SerializeField]
+		private float travelTime;
+		private float timer;
+		private Vector3 startPos;
+		#endregion
+
+		#region Public Properties
+		public KeyPoseTypes TrackedKeyPoses { get; private set; }
         #endregion
 
         #region Unity Methods
@@ -104,20 +113,72 @@ namespace UnityEngine.XR.MagicLeap
         /// Update KeyPoses tracked if enum value changed.
         /// </summary>
         void Update()
-        {
-            if ((_trackedKeyPoses ^ TrackedKeyPoses) != 0)
-            {
-                UpdateKeyPoseStates(true);
-            }
-        }
-        #endregion
+		{
+			if ((_trackedKeyPoses ^ TrackedKeyPoses) != 0)
+			{
+				UpdateKeyPoseStates(true);
+			}
 
-        #region Public Methods
-        /// <summary>
-        /// Adds KeyPose if it's not there already.
-        /// </summary>
-        /// <param name="keyPose"> KeyPose to add. </param>
-        public void AddKeyPose(KeyPoseTypes keyPose)
+			DragonPoseLogic();
+		}
+
+		private void DragonPoseLogic()
+		{
+			if(MLHands.Left.KeyPose == MLHandKeyPose.Pinch && lastPoseLeft != MLHandKeyPose.Pinch)
+			{
+				startPos = MLHands.Left.Center;
+				timer = 0;
+			}
+
+			if (MLHands.Right.KeyPose == MLHandKeyPose.Pinch && lastPoseRight != MLHandKeyPose.Pinch)
+			{
+				startPos = MLHands.Right.Center;
+				timer = 0;
+			}
+
+			if (MLHands.Left.KeyPose == MLHandKeyPose.Pinch || MLHands.Right.KeyPose == MLHandKeyPose.Pinch)
+			{
+				if(0 == timer)
+				{
+					if (MLHands.Left.KeyPose == MLHandKeyPose.Pinch)
+						startPos = MLHands.Left.Center;
+
+					else if (MLHands.Right.KeyPose == MLHandKeyPose.Pinch)
+						startPos = MLHands.Right.Center;
+				}
+
+				timer += Time.deltaTime;
+
+				if(Mathf.Abs(startPos.y - transform.position.y) >= travelDistance)
+				{
+					Debug.Log("move");
+				}
+
+				if(timer >= travelTime)
+					timer = 0;
+			}
+
+			else
+				timer = 0;
+
+			if (MLHands.Left.KeyPose != lastPoseLeft)
+			{
+				lastPoseLeft = MLHands.Left.KeyPose;
+			}
+
+			if (MLHands.Right.KeyPose != lastPoseRight)
+			{
+				lastPoseRight = MLHands.Right.KeyPose;
+			}
+		}
+		#endregion
+
+		#region Public Methods
+		/// <summary>
+		/// Adds KeyPose if it's not there already.
+		/// </summary>
+		/// <param name="keyPose"> KeyPose to add. </param>
+		public void AddKeyPose(KeyPoseTypes keyPose)
         {
             if ((keyPose & _trackedKeyPoses) != keyPose)
             {
@@ -188,11 +249,6 @@ namespace UnityEngine.XR.MagicLeap
                 enabled = false;
                 return;
             }
-
-			Debug.Log(MLHands.Left.KeyPose.ToString());
-			Debug.Log((MLHands.Left.KeyPoseConfidence * 100.0f).ToString("n0"));
-			Debug.Log(MLHands.Right.KeyPose.ToString());
-			Debug.Log((MLHands.Right.KeyPoseConfidence * 100.0f).ToString("n0"));
 		}
         #endregion
     }
