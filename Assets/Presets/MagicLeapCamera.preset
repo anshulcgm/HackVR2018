@@ -21,15 +21,15 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_BackGroundColor.r
-    value: 0
+    value: 0.2494215
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_BackGroundColor.g
-    value: 0
+    value: 0.8962264
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_BackGroundColor.b
-    value: 0
+    value: 0.39176008
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_BackGroundColor.a
