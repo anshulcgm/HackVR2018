@@ -60,8 +60,14 @@ namespace UnityEngine.XR.MagicLeap
         [SerializeField]
         private MLPoseFilterLevel _PoseFilterLevel = MLPoseFilterLevel.ExtraRobust;
 
-		private KeyPoseTypes lastPoseLeft;
-		private KeyPoseTypes lastPoseRight;
+		private MLHandKeyPose lastPoseLeft;
+		private MLHandKeyPose lastPoseRight;
+		[SerializeField]
+		private float travelDistance;
+		[SerializeField]
+		private float travelTime;
+		private float timer;
+		private Vector3 startPos;
 		#endregion
 
 		#region Public Properties
@@ -107,23 +113,63 @@ namespace UnityEngine.XR.MagicLeap
         /// Update KeyPoses tracked if enum value changed.
         /// </summary>
         void Update()
-        {
-            if ((_trackedKeyPoses ^ TrackedKeyPoses) != 0)
-            {
-                UpdateKeyPoseStates(true);
-            }
+		{
+			if ((_trackedKeyPoses ^ TrackedKeyPoses) != 0)
+			{
+				UpdateKeyPoseStates(true);
+			}
 
-			if(MLHands.Left.KeyPose != )
+			DragonPoseLogic();
+		}
 
-			//Debug.Log(MLHands.Left.KeyPose.ToString());
+		private void DragonPoseLogic()
+		{
+			if(MLHands.Left.KeyPose == MLHandKeyPose.Pinch && lastPoseLeft != MLHandKeyPose.Pinch)
+			{
+				startPos = MLHands.Left.Center;
+				timer = 0;
+			}
 
-			//if (MLHands.Left.KeyPose != MLHandKeyPose.NoHand)
-			//	Debug.Log((MLHands.Left.KeyPoseConfidence * 100.0f).ToString("n0"));
+			if (MLHands.Right.KeyPose == MLHandKeyPose.Pinch && lastPoseRight != MLHandKeyPose.Pinch)
+			{
+				startPos = MLHands.Right.Center;
+				timer = 0;
+			}
 
-			//Debug.Log(MLHands.Right.KeyPose.ToString());
+			if (MLHands.Left.KeyPose == MLHandKeyPose.Pinch || MLHands.Right.KeyPose == MLHandKeyPose.Pinch)
+			{
+				if(0 == timer)
+				{
+					if (MLHands.Left.KeyPose == MLHandKeyPose.Pinch)
+						startPos = MLHands.Left.Center;
 
-			//if (MLHands.Right.KeyPose != MLHandKeyPose.NoHand)
-			//	Debug.Log((MLHands.Right.KeyPoseConfidence * 100.0f).ToString("n0"));
+					else if (MLHands.Right.KeyPose == MLHandKeyPose.Pinch)
+						startPos = MLHands.Right.Center;
+				}
+
+				timer += Time.deltaTime;
+
+				if(Mathf.Abs(startPos.y - transform.position.y) >= travelDistance)
+				{
+					Debug.Log("move");
+				}
+
+				if(timer >= travelTime)
+					timer = 0;
+			}
+
+			else
+				timer = 0;
+
+			if (MLHands.Left.KeyPose != lastPoseLeft)
+			{
+				lastPoseLeft = MLHands.Left.KeyPose;
+			}
+
+			if (MLHands.Right.KeyPose != lastPoseRight)
+			{
+				lastPoseRight = MLHands.Right.KeyPose;
+			}
 		}
 		#endregion
 
