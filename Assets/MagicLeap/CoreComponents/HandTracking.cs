@@ -59,10 +59,13 @@ namespace UnityEngine.XR.MagicLeap
 
         [SerializeField]
         private MLPoseFilterLevel _PoseFilterLevel = MLPoseFilterLevel.ExtraRobust;
-        #endregion
 
-        #region Public Properties
-        public KeyPoseTypes TrackedKeyPoses { get; private set; }
+		private KeyPoseTypes lastPoseLeft;
+		private KeyPoseTypes lastPoseRight;
+		#endregion
+
+		#region Public Properties
+		public KeyPoseTypes TrackedKeyPoses { get; private set; }
         #endregion
 
         #region Unity Methods
@@ -109,15 +112,27 @@ namespace UnityEngine.XR.MagicLeap
             {
                 UpdateKeyPoseStates(true);
             }
-        }
-        #endregion
 
-        #region Public Methods
-        /// <summary>
-        /// Adds KeyPose if it's not there already.
-        /// </summary>
-        /// <param name="keyPose"> KeyPose to add. </param>
-        public void AddKeyPose(KeyPoseTypes keyPose)
+			if(MLHands.Left.KeyPose != )
+
+			//Debug.Log(MLHands.Left.KeyPose.ToString());
+
+			//if (MLHands.Left.KeyPose != MLHandKeyPose.NoHand)
+			//	Debug.Log((MLHands.Left.KeyPoseConfidence * 100.0f).ToString("n0"));
+
+			//Debug.Log(MLHands.Right.KeyPose.ToString());
+
+			//if (MLHands.Right.KeyPose != MLHandKeyPose.NoHand)
+			//	Debug.Log((MLHands.Right.KeyPoseConfidence * 100.0f).ToString("n0"));
+		}
+		#endregion
+
+		#region Public Methods
+		/// <summary>
+		/// Adds KeyPose if it's not there already.
+		/// </summary>
+		/// <param name="keyPose"> KeyPose to add. </param>
+		public void AddKeyPose(KeyPoseTypes keyPose)
         {
             if ((keyPose & _trackedKeyPoses) != keyPose)
             {
@@ -188,11 +203,6 @@ namespace UnityEngine.XR.MagicLeap
                 enabled = false;
                 return;
             }
-
-			Debug.Log(MLHands.Left.KeyPose.ToString());
-			Debug.Log((MLHands.Left.KeyPoseConfidence * 100.0f).ToString("n0"));
-			Debug.Log(MLHands.Right.KeyPose.ToString());
-			Debug.Log((MLHands.Right.KeyPoseConfidence * 100.0f).ToString("n0"));
 		}
         #endregion
     }
