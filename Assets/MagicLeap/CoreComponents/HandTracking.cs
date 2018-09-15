@@ -113,7 +113,7 @@ namespace UnityEngine.XR.MagicLeap
                 UpdateKeyPoseStates(true);
             }
 
-			if(MLHands.Left.KeyPose != )
+			//if(MLHands.Left.KeyPose != )
 
 			//Debug.Log(MLHands.Left.KeyPose.ToString());
 
