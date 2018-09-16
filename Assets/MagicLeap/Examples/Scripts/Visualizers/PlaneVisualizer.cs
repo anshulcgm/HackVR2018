@@ -43,7 +43,7 @@ namespace MagicLeap
 
         #region Private Members
         [Space, SerializeField, Tooltip("Text to display render mode.")]
-        private Text _renderModeText;
+        //private Text _renderModeText;
 
         // List of all the planes being rendered
         private List<GameObject> _planeCache;
@@ -80,12 +80,12 @@ namespace MagicLeap
                 return;
             }
 
-            if (_renderModeText == null)
-            {
-                Debug.LogError("Error PlanesVisualizer._renderModeText is not set, disabling script.");
-                enabled = false;
-                return;
-            }
+            //if (_renderModeText == null)
+            //{
+            //    Debug.LogError("Error PlanesVisualizer._renderModeText is not set, disabling script.");
+            //    enabled = false;
+            //    return;
+            //}
 
             _planeCache = new List<GameObject>();
             _planeFlags = new List<uint>();
@@ -209,7 +209,7 @@ namespace MagicLeap
         /// </summary>
         private void UpdateStatusText()
         {
-            _renderModeText.text = string.Format("Render Mode: {0}", (_showBorder ? "Border" : "Texture"));
+            //_renderModeText.text = string.Format("Render Mode: {0}", (_showBorder ? "Border" : "Texture"));
         }
         #endregion
     }

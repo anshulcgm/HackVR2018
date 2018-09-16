@@ -579,7 +579,7 @@ PlayerSettings:
   incrementalIl2cppBuild: {}
   allowUnsafeCode: 0
   additionalIl2CppArgs: 
-  scriptingRuntimeVersion: 0
+  scriptingRuntimeVersion: 1
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
@@ -674,7 +674,7 @@ PlayerSettings:
   - GesturesSubscribe
   - GesturesConfig
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 3
   cloudProjectId: 01b8c888-4a17-4086-b9fd-1f0334f3bc50
   projectName: HackVRSept20181
   organizationId: clinton-reddie
