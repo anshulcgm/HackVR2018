@@ -130,7 +130,7 @@ namespace UnityEngine.XR.MagicLeap
 			}
 
 			var num = smoothingSteps;
-			while(num > 1)
+			while (num > 1)
 			{
 				num -= 1;
 				posiStackLeft[num] = posiStackLeft[num - 1];
@@ -151,6 +151,7 @@ namespace UnityEngine.XR.MagicLeap
 				av += vec;
 
 			av /= arr.Length;
+			Debug.Log(av);
 			return av;
 		}
 
@@ -159,12 +160,14 @@ namespace UnityEngine.XR.MagicLeap
 			if(MLHands.Left.KeyPose == MLHandKeyPose.Pinch && lastPoseLeft != MLHandKeyPose.Pinch)
 			{
 				startPos = AverageMovement(posiStackLeft);
+				//startPos = MLHands.Left.Center;
 				timer = 0;
 			}
 
 			if (MLHands.Right.KeyPose == MLHandKeyPose.Pinch && lastPoseRight != MLHandKeyPose.Pinch)
 			{
 				startPos = AverageMovement(posiStackRight);
+				//startPos = MLHands.Right.Center;
 				timer = 0;
 			}
 
@@ -174,19 +177,21 @@ namespace UnityEngine.XR.MagicLeap
 				{
 					if (MLHands.Left.KeyPose == MLHandKeyPose.Pinch)
 						startPos = AverageMovement(posiStackLeft);
+						//startPos = MLHands.Left.Center;
 
 					else if (MLHands.Right.KeyPose == MLHandKeyPose.Pinch)
 						startPos = AverageMovement(posiStackRight);
+						//startPos = MLHands.Right.Center;
 				}
 
 				timer += Time.deltaTime;
-
+				Debug.Log("1");
 				//move
-				if(Mathf.Abs(startPos.y - AverageMovement(posiStackRight).y) >= travelDistance)
+				if (Mathf.Abs(startPos.y - transform.position.y) >= travelDistance)
 				{
 					RaycastHit hit;
 					Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 100f);
-
+					Debug.Log("2");
 					if (null != hit.transform)
 						PlayerCharacter.Instance.MoveToTarget(hit.point);
 				}
@@ -199,7 +204,8 @@ namespace UnityEngine.XR.MagicLeap
 			{
 				timer = 0;
 
-				if(MLHands.Left.KeyPose == MLHandKeyPose.C || MLHands.Right.KeyPose == MLHandKeyPose.C)
+				if (MLHands.Left.KeyPose == MLHandKeyPose.C && lastPoseLeft != MLHandKeyPose.C ||
+					MLHands.Right.KeyPose == MLHandKeyPose.C && lastPoseRight != MLHandKeyPose.C)
 				{
 					Debug.Log("fireball");
 				}
