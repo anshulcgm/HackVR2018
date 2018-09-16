@@ -382,7 +382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRadius: 57.43
   damagePerShot: 0
-  secondsBetweenShots: 0.001
+  secondsBetweenShots: 2
   projectileToUse: {fileID: 1143984679297730, guid: 8ba901286791c434b8ff8f609468bbc2,
     type: 2}
   projectileSocket: {fileID: 632434840}
@@ -448,7 +448,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 711642399}
   m_LocalRotation: {x: -0, y: -0.36805376, z: -0, w: 0.9298045}
-  m_LocalPosition: {x: -37.44, y: 3.55, z: 4.96}
+  m_LocalPosition: {x: -37.44, y: -0.38, z: 4.96}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_Children:
   - {fileID: 632434841}
@@ -711,7 +711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRadius: 57.43
   damagePerShot: 0
-  secondsBetweenShots: 0.001
+  secondsBetweenShots: 2
   projectileToUse: {fileID: 1143984679297730, guid: 8ba901286791c434b8ff8f609468bbc2,
     type: 2}
   projectileSocket: {fileID: 243721067}
@@ -765,7 +765,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1124147150}
   m_LocalRotation: {x: -0, y: -0.36805376, z: -0, w: 0.9298045}
-  m_LocalPosition: {x: 1.75, y: 3.55, z: 7.93}
+  m_LocalPosition: {x: 1.75, y: 10.48, z: 7.93}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_Children:
   - {fileID: 243721068}
@@ -832,7 +832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRadius: 57.43
   damagePerShot: 0
-  secondsBetweenShots: 0.001
+  secondsBetweenShots: 2
   projectileToUse: {fileID: 1143984679297730, guid: 8ba901286791c434b8ff8f609468bbc2,
     type: 2}
   projectileSocket: {fileID: 865939999}

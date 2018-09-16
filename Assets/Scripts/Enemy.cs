@@ -26,25 +26,35 @@ public class Enemy : MonoBehaviour {
     // Rotate the enemy to face the player, rotate only along the Y axis.
     void LateUpdate()
     {
-        Vector3 lookPos = player.transform.position - transform.position;
-        lookPos.y = 0;
-        Quaternion rotation = Quaternion.LookRotation(lookPos);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * RotaionSpeed);
+        if (player != null)
+        {
+            Vector3 lookPos = player.transform.position - transform.position;
+            lookPos.y = 0;
+            Quaternion rotation = Quaternion.LookRotation(lookPos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * RotaionSpeed);
+        }
     }
     void Update()
     {
+        try
+        {
+            float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
+            if (distanceToPlayer <= attackRadius && !isAttacking)
+            {
+                isAttacking = true;
+                InvokeRepeating("FireProjectile", 0f, secondsBetweenShots);
+            }
 
-        float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (distanceToPlayer <= attackRadius && !isAttacking)
-        {
-            isAttacking = true;
-            InvokeRepeating("FireProjectile", 0f, secondsBetweenShots);
+            if ((distanceToPlayer > attackRadius))
+            {
+                isAttacking = false;
+                CancelInvoke();
+            }
         }
-        
-        if (distanceToPlayer > attackRadius)
+        catch
         {
-            isAttacking = false;
             CancelInvoke();
+            // TODO: do something, the player is dead or null if the code gets here.
         }
     }
 

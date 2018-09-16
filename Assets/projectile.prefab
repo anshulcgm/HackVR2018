@@ -117,7 +117,7 @@ MonoBehaviour:
   target: {fileID: 0}
   shooter: {fileID: 0}
   targetPos: {x: 0, y: 0, z: 0}
-  damageCaused: 0
+  damageCaused: 10
 --- !u!135 &135716350510648454
 SphereCollider:
   m_ObjectHideFlags: 1
