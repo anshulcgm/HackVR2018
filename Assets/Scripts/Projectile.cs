@@ -63,7 +63,7 @@ public class Projectile : MonoBehaviour {
         if (tagCollidedWith != shooter.tag)
         {
             DamageIfDamageable(collision);
-           // Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 

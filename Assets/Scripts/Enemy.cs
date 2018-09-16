@@ -19,11 +19,11 @@ public class Enemy : MonoBehaviour {
     bool isAttacking = false;
     float currentHealthPoints;
     GameObject player = null;
-    float strength = .5f;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
     }
+    // Rotate the enemy to face the player, rotate only along the Y axis.
     void LateUpdate()
     {
         Vector3 lookPos = player.transform.position - transform.position;
