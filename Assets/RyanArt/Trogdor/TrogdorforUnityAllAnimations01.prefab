@@ -440,7 +440,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4680881557256922}
   - component: {fileID: 95863169526186862}
-  - component: {fileID: 111954450247322244}
   m_Layer: 0
   m_Name: TrogdorforUnityAllAnimations01
   m_TagString: Untagged
@@ -2664,7 +2663,7 @@ Animator:
   m_GameObject: {fileID: 1295993734709966}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ecbd8a026a0baf24c979406df7a93b89, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9457d82bd80c3ba449607e4f9aee8998, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2673,21 +2672,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!111 &111954450247322244
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1295993734709966}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400002, guid: ecbd8a026a0baf24c979406df7a93b89, type: 3}
-  m_Animations:
-  - {fileID: 7400002, guid: ecbd8a026a0baf24c979406df7a93b89, type: 3}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!137 &137507936883519050
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
