@@ -27,11 +27,20 @@ public class PlaneFinding : MonoBehaviour {
     //Horizontal planes above floors list 
     private List<GameObject> _aboveFloorList = new List<GameObject>();
 
-
+	private Vector3 playerInstantiationPosition;
     private void Start()
     {
         MLWorldPlanes.Start();
         Debug.Log("Started MLWorldPlanes");
+		//requestPlanes();
+		//List<float> distancesNonFloorPlanes = new List<float>();
+		//Debug.Log("Above floors list has " + _aboveFloorList.Count + " planes");
+		//for(int i = 0; i < _aboveFloorList.Count; i++)
+		//{
+		//	distancesNonFloorPlanes.Add(Vector3.Distance(Camera.main.transform.position, _aboveFloorList[i].transform.position));
+		//}
+		//int minValueIndex = distancesNonFloorPlanes.IndexOf(distancesNonFloorPlanes.Min());
+		//playerInstantiationPosition = _aboveFloorList[minValueIndex].transform.position;
     }
 
     private void OnDestroy()
@@ -68,7 +77,7 @@ public class PlaneFinding : MonoBehaviour {
     private void HandleReceivedPlanes(MLResult result, MLWorldPlane[] planes)
     {
         //Removes current cache of collected planes, both floor and nonfloor
-        //Debug.Log("In HandleRecievedPlanes function");
+        Debug.Log("In HandleRecievedPlanes function");
         Debug.Log("There are currently " + _planesList.Count + " planes in the environment");
         for(int i = _planesList.Count -1; i >=0; i--)
         {
@@ -107,5 +116,7 @@ public class PlaneFinding : MonoBehaviour {
             }
         }
         Debug.Log("There are currently " + _aboveFloorList.Count + " non-floor planes visible");
+
+		
     }
 }
