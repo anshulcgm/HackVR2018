@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Logic for a projectile that will deal damage to any object that is not its shooter's tag, as such, works for players, enemies, etc.
+ */
 public class Projectile : MonoBehaviour {
-    // If you want to create a non spherical projectile, ie. an arrow, the Z axis is the axis that points to the target.
+    // NOTE: If you want to create a non spherical projectile, ie. an arrow, the Z axis is the axis that points to the target (Rotation Axis).
     [Tooltip("The maximum of the shot parabola.")]
     [SerializeField] int arcHeight = 1;
     [Tooltip("Speed of the projectile")]
     [SerializeField] float projectileSpeed = 20;
     public GameObject target;
-    [Tooltip("The Game Object that shot the projectile. This is set in code, and thus does not to be initialized in the inspector.")]
+    [Tooltip("The Game Object that shot the projectile. This is set in the enemy code, and thus does not to be initialized in the inspector.")]
     [SerializeField] GameObject shooter;
     public Vector3 targetPos;
 
@@ -42,6 +45,7 @@ public class Projectile : MonoBehaviour {
         // Rotate to face the next position, and then move there
         transform.rotation = Quaternion.LookRotation(nextPos - transform.position);
         transform.position = nextPos;
+        // If the code reaches here, the projectile missed. Thus, delete it when it hits where the player was.
         if (nextPos == targetPos)
             Destroy(gameObject);
     }

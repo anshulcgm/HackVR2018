@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Logic for a turret esc enemy that will shoot at the player if it is within its attack range.
+ */
 public class Enemy : MonoBehaviour {
-    // The way the code works is that the shooter and target must be on seperate layers. Additionally the player must be tagged with the player tag.
+    // NOTE: The way the code works is that the shooter and target MUST have seperate tags, the player has to be tagged with the player tag.
     [Tooltip("The attack radius of this game object, in units")]
     [SerializeField] float attackRadius = 4f;
     [Tooltip("The damage this game object's projectiles deal. This overwrites the projectiles damage, unless it is set to 0.")]
@@ -23,7 +26,7 @@ public class Enemy : MonoBehaviour {
     {
         player = GameObject.FindGameObjectWithTag("Player");
     }
-    // Rotate the enemy to face the player, rotate only along the Y axis.
+    // Rotates the enemy to face the player, rotate only along the Y axis.
     void LateUpdate()
     {
         if (player != null)
@@ -42,6 +45,7 @@ public class Enemy : MonoBehaviour {
             if (distanceToPlayer <= attackRadius && !isAttacking)
             {
                 isAttacking = true;
+                // Repeatedly calls the function every (secondBetweenShots) seconds. Only stops with a CancelInvoke call.
                 InvokeRepeating("FireProjectile", 0f, secondsBetweenShots);
             }
 
@@ -54,10 +58,9 @@ public class Enemy : MonoBehaviour {
         catch
         {
             CancelInvoke();
-            // TODO: do something, the player is dead or null if the code gets here.
         }
     }
-
+    // Code to fire a projectile, this logic both instantiates and sets up the projectile so that it recoginizes both its target, and shooter.
     void FireProjectile()
     {
         GameObject newProjectile = Instantiate(projectileToUse, projectileSocket.transform.position, Quaternion.identity);
@@ -67,7 +70,7 @@ public class Enemy : MonoBehaviour {
         projectileComponent.targetPos = player.transform.position;
         projectileComponent.target = player;
     }
-
+    // Draws gizmos to help visualize the attack radius.
     void OnDrawGizmos()
     {
         // Draw attack sphere 
