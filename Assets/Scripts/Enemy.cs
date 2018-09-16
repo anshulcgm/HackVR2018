@@ -13,18 +13,27 @@ public class Enemy : MonoBehaviour {
     [Tooltip("The projectile to spawn")]
     [SerializeField] GameObject projectileToUse;
     [Tooltip("The location to spawn the projectile.")]
-    [SerializeField] GameObject projectileSocket; // The place to spawn the projectile
-
+    [SerializeField] GameObject projectileSocket;
+    [Tooltip("How fast the object rotates")]
+    [SerializeField] float RotaionSpeed =20f;
     bool isAttacking = false;
     float currentHealthPoints;
     GameObject player = null;
+    float strength = .5f;
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
     }
-
+    void LateUpdate()
+    {
+        Vector3 lookPos = player.transform.position - transform.position;
+        lookPos.y = 0;
+        Quaternion rotation = Quaternion.LookRotation(lookPos);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * RotaionSpeed);
+    }
     void Update()
     {
+
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
         if (distanceToPlayer <= attackRadius && !isAttacking)
         {
@@ -45,7 +54,6 @@ public class Enemy : MonoBehaviour {
         Projectile projectileComponent = newProjectile.GetComponent<Projectile>();
         projectileComponent.SetDamage(damagePerShot);
         projectileComponent.SetShooter(gameObject);
-        Debug.Log("shooting");
         projectileComponent.targetPos = player.transform.position;
         projectileComponent.target = player;
     }

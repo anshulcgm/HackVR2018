@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour {
-    [Tooltip("How high the arc should be, in units")]
+    // If you want to create a non spherical projectile, ie. an arrow, the Z axis is the axis that points to the target.
+    [Tooltip("The maximum of the shot parabola.")]
     [SerializeField] int arcHeight = 1;
     [Tooltip("Speed of the projectile")]
-    [SerializeField] float projectileSpeed = 10;
+    [SerializeField] float projectileSpeed = 20;
     public GameObject target;
-    [Tooltip("The Game Object that shot the projectile. This is set in code, adn thus does not to be initialized in the inspector.")]
+    [Tooltip("The Game Object that shot the projectile. This is set in code, and thus does not to be initialized in the inspector.")]
     [SerializeField] GameObject shooter;
     public Vector3 targetPos;
 
@@ -41,6 +42,8 @@ public class Projectile : MonoBehaviour {
         // Rotate to face the next position, and then move there
         transform.rotation = Quaternion.LookRotation(nextPos - transform.position);
         transform.position = nextPos;
+        if (nextPos == targetPos)
+            Destroy(gameObject);
     }
 
     public void SetDamage(float damage)
@@ -53,14 +56,14 @@ public class Projectile : MonoBehaviour {
     {
         return projectileSpeed;
     }
-    // Compare the tag of the shooter and the object the projectile collided with, if they are different, try to     deal damage.
+    // Compare the tag of the shooter and the object the projectile collided with, if they are different, try to deal damage.
     void OnCollisionEnter(Collision collision)
     {
         var tagCollidedWith = collision.gameObject.tag;
         if (tagCollidedWith != shooter.tag)
         {
             DamageIfDamageable(collision);
-            Destroy(gameObject);
+           // Destroy(gameObject);
         }
     }
 

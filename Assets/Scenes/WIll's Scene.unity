@@ -355,10 +355,9 @@ MonoBehaviour:
   attackRadius: 57.43
   damagePerShot: 0
   secondsBetweenShots: 0.5
-  projectileToUse: {fileID: 1573279216389776, guid: e2e8392bee70a2847b23650a3ccddc13,
+  projectileToUse: {fileID: 1143984679297730, guid: e2e8392bee70a2847b23650a3ccddc13,
     type: 2}
   projectileSocket: {fileID: 632434840}
-  aimOffset: {x: 0, y: 1, z: 0}
 --- !u!65 &711642401
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -518,7 +517,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 889612485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: -17.22, y: 1, z: -16.45}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
