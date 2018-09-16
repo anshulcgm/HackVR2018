@@ -60,14 +60,15 @@ public class PlaneFinding : MonoBehaviour {
 
         Debug.Log("Query params are " + _params.ToString());
         Debug.Log("Trying to get planes");
+        //Callback to HandleReceivedPlanes
         MLWorldPlanes.GetPlanes(_params, HandleReceivedPlanes);
         Debug.Log("Finished GetPlanes() method");
     }
 
     private void HandleReceivedPlanes(MLResult result, MLWorldPlane[] planes)
     {
-        //Removes current cache of collected planes
-        Debug.Log("In HandleRecievedPlanes function");
+        //Removes current cache of collected planes, both floor and nonfloor
+        //Debug.Log("In HandleRecievedPlanes function");
         Debug.Log("There are currently " + _planesList.Count + " planes in the environment");
         for(int i = _planesList.Count -1; i >=0; i--)
         {
@@ -95,8 +96,9 @@ public class PlaneFinding : MonoBehaviour {
             yValues.Add(newPlane.transform.position.y);
         }
 
-        float minY = yValues.Min();
+        float minY = yValues.Min(); //minimum y-value should be height of the floor planes 
         Debug.Log("Minimum y-value is " + minY);
+        //Finds all planes more than 50 centimeters above the floor and adds them into a nonfloor planes list
         for(int i = 0; i < _planesList.Count; i++)
         {
             if(_planesList[i].transform.position.y >= minY + 0.5f)
