@@ -68,18 +68,28 @@ namespace UnityEngine.XR.MagicLeap
 		private float travelTime;
 		private float timer;
 		private Vector3 startPos;
+		[SerializeField]
+		private int smoothingSteps = 5;
+		private Vector3[] posiStackLeft;
+		private Vector3[] posiStackRight;
 		#endregion
 
 		#region Public Properties
 		public KeyPoseTypes TrackedKeyPoses { get; private set; }
-        #endregion
+		#endregion
 
-        #region Unity Methods
-        /// <summary>
-        /// Initializes and finds references to all relevant components in the
-        /// scene and registers required events.
-        /// </summary>
-        void OnEnable()
+		#region Unity Methods
+		private void Awake()
+		{
+			posiStackLeft = new Vector3[smoothingSteps];
+			posiStackRight = new Vector3[smoothingSteps];
+		}
+
+		/// <summary>
+		/// Initializes and finds references to all relevant components in the
+		/// scene and registers required events.
+		/// </summary>
+		void OnEnable()
         {
             MLResult result = MLHands.Start();
             if (!result.IsOk)
@@ -119,20 +129,45 @@ namespace UnityEngine.XR.MagicLeap
 				UpdateKeyPoseStates(true);
 			}
 
+			var num = smoothingSteps;
+			while (num > 1)
+			{
+				num -= 1;
+				posiStackLeft[num] = posiStackLeft[num - 1];
+				posiStackRight[num] = posiStackRight[num - 1];
+			}
+
+			posiStackLeft[0] = MLHands.Left.Center;
+			posiStackRight[0] = MLHands.Right.Center;
+
 			DragonPoseLogic();
+		}
+		#endregion
+
+		private Vector3 AverageMovement(Vector3[] arr)
+		{
+			var av = Vector3.zero;
+			foreach (Vector3 vec in arr)
+				av += vec;
+
+			av /= arr.Length;
+			Debug.Log(av);
+			return av;
 		}
 
 		private void DragonPoseLogic()
 		{
 			if(MLHands.Left.KeyPose == MLHandKeyPose.Pinch && lastPoseLeft != MLHandKeyPose.Pinch)
 			{
-				startPos = MLHands.Left.Center;
+				startPos = AverageMovement(posiStackLeft);
+				//startPos = MLHands.Left.Center;
 				timer = 0;
 			}
 
 			if (MLHands.Right.KeyPose == MLHandKeyPose.Pinch && lastPoseRight != MLHandKeyPose.Pinch)
 			{
-				startPos = MLHands.Right.Center;
+				startPos = AverageMovement(posiStackRight);
+				//startPos = MLHands.Right.Center;
 				timer = 0;
 			}
 
@@ -141,17 +176,24 @@ namespace UnityEngine.XR.MagicLeap
 				if(0 == timer)
 				{
 					if (MLHands.Left.KeyPose == MLHandKeyPose.Pinch)
-						startPos = MLHands.Left.Center;
+						startPos = AverageMovement(posiStackLeft);
+						//startPos = MLHands.Left.Center;
 
 					else if (MLHands.Right.KeyPose == MLHandKeyPose.Pinch)
-						startPos = MLHands.Right.Center;
+						startPos = AverageMovement(posiStackRight);
+						//startPos = MLHands.Right.Center;
 				}
 
 				timer += Time.deltaTime;
-
-				if(Mathf.Abs(startPos.y - transform.position.y) >= travelDistance)
+				Debug.Log("1");
+				//move
+				if (Mathf.Abs(startPos.y - transform.position.y) >= travelDistance)
 				{
-					Debug.Log("move");
+					RaycastHit hit;
+					Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 100f);
+					Debug.Log("2");
+					if (null != hit.transform)
+						PlayerCharacter.Instance.MoveToTarget(hit.point);
 				}
 
 				if(timer >= travelTime)
@@ -159,19 +201,22 @@ namespace UnityEngine.XR.MagicLeap
 			}
 
 			else
+			{
 				timer = 0;
 
-			if (MLHands.Left.KeyPose != lastPoseLeft)
-			{
-				lastPoseLeft = MLHands.Left.KeyPose;
+				if (MLHands.Left.KeyPose == MLHandKeyPose.C && lastPoseLeft != MLHandKeyPose.C ||
+					MLHands.Right.KeyPose == MLHandKeyPose.C && lastPoseRight != MLHandKeyPose.C)
+				{
+					Debug.Log("fireball");
+				}
 			}
 
+			if (MLHands.Left.KeyPose != lastPoseLeft)
+				lastPoseLeft = MLHands.Left.KeyPose;
+
 			if (MLHands.Right.KeyPose != lastPoseRight)
-			{
 				lastPoseRight = MLHands.Right.KeyPose;
-			}
 		}
-		#endregion
 
 		#region Public Methods
 		/// <summary>
